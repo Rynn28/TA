@@ -377,7 +377,7 @@
     </style>
 </head>
 <body>
-    @php
+    <?php
         $namaString = $nama ?? 'Dosen/Staff';
         $durasiMingguan = $durasiMingguan ?? [
             'Senin' => 7.5,
@@ -387,7 +387,7 @@
             'Jumat' => 5.4,
         ];
         $maksJam = max($durasiMingguan);
-    @endphp
+    ?>
 
     <div class="layout">
         <aside class="sidebar">
@@ -415,7 +415,7 @@
         <section class="content">
             <header class="topbar">
                 <div class="welcome">
-                    <h2>Selamat datang, {{ $namaString }}</h2>
+                    <h2>Selamat datang, <?php echo e($namaString); ?></h2>
                     <p>Semoga aktivitas akademik dan operasional hari ini berjalan lancar.</p>
                 </div>
 
@@ -453,18 +453,18 @@
                         </div>
 
                         <div class="chart">
-                            @foreach ($durasiMingguan as $hari => $jam)
-                                @php
+                            <?php $__currentLoopData = $durasiMingguan; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $hari => $jam): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php
                                     $persen = $maksJam > 0 ? ($jam / $maksJam) * 100 : 0;
-                                @endphp
+                                ?>
                                 <div class="row">
-                                    <div class="day">{{ $hari }}</div>
+                                    <div class="day"><?php echo e($hari); ?></div>
                                     <div class="bar-bg" aria-hidden="true">
-                                        <div class="bar" style="width: {{ number_format($persen, 2, '.', '') }}%"></div>
+                                        <div class="bar" style="width: <?php echo e(number_format($persen, 2, '.', '')); ?>%"></div>
                                     </div>
-                                    <div class="hours">{{ rtrim(rtrim(number_format($jam, 1, '.', ''), '0'), '.') }}j</div>
+                                    <div class="hours"><?php echo e(rtrim(rtrim(number_format($jam, 1, '.', ''), '0'), '.')); ?>j</div>
                                 </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     </div>
                 </article>
@@ -534,3 +534,4 @@
     </script>
 </body>
 </html>
+<?php /**PATH F:\Sempro TA\project\Laravel\TA\resources\views\welcome.blade.php ENDPATH**/ ?>

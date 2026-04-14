@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\UserDosen;
+use App\Models\UserStaff;
 
 class DashboardController extends Controller
 {
 	public function index()
 	{
 		try {
-			$dosen = User::query()
+			$dosen = UserDosen::query()
 				->where('role', 'dosen')
 				->orderBy('nama')
 				->get();
 
-			$teknisi = User::query()
+			$teknisi = UserStaff::query()
 				->whereIn('role', ['teknisi', 'staff'])
 				->orderBy('nama')
 				->get();

@@ -530,7 +530,7 @@
                 </div>
             </div>
 
-            @php
+            <?php
                 $makeInitial = static function (string $nama): string {
                     $parts = preg_split('/\s+/', trim($nama)) ?: [];
                     $initials = '';
@@ -557,106 +557,106 @@
                     if (str_starts_with($foto, '/')) return $foto;
                     return asset($foto);
                 };
-            @endphp
+            ?>
 
             <section id="dosenPane" class="role-pane active">
-                @php
+                <?php
                     $dosenByProdi = $dosen
                         ->sortBy([['prodi', 'asc'], ['nama', 'asc']])
                         ->groupBy(function ($item) {
                             $prodi = trim((string) ($item->prodi ?? ''));
                             return $prodi !== '' ? $prodi : 'Prodi Belum Ditentukan';
                         });
-                @endphp
+                ?>
 
-                @if ($dosenByProdi->isEmpty())
+                <?php if($dosenByProdi->isEmpty()): ?>
                     <div class="empty-state">Belum ada data dosen di database.</div>
-                @else
+                <?php else: ?>
                     <div class="prodi-groups">
-                        @foreach ($dosenByProdi as $prodiName => $prodiItems)
+                        <?php $__currentLoopData = $dosenByProdi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $prodiName => $prodiItems): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <section class="prodi-group">
                                 <header class="prodi-head">
-                                    <h4 class="prodi-title">{{ $prodiName }}</h4>
-                                    <span class="prodi-count">{{ $prodiItems->count() }} Dosen</span>
+                                    <h4 class="prodi-title"><?php echo e($prodiName); ?></h4>
+                                    <span class="prodi-count"><?php echo e($prodiItems->count()); ?> Dosen</span>
                                 </header>
 
                                 <div class="cards">
-                                    @foreach ($prodiItems as $item)
+                                    <?php $__currentLoopData = $prodiItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <article class="card">
-                                            @php
+                                            <?php
                                                 $fotoUrl = $resolveFoto($item->foto);
-                                            @endphp
-                                            <div class="avatar" @if($fotoUrl) style="background-image: url('{{ $fotoUrl }}')" @endif>
-                                                @if(!$fotoUrl)
-                                                    <div class="avatar-placeholder">{{ $makeInitial($item->nama) }}</div>
-                                                @endif
+                                            ?>
+                                            <div class="avatar" <?php if($fotoUrl): ?> style="background-image: url('<?php echo e($fotoUrl); ?>')" <?php endif; ?>>
+                                                <?php if(!$fotoUrl): ?>
+                                                    <div class="avatar-placeholder"><?php echo e($makeInitial($item->nama)); ?></div>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="card-body">
-                                                <div class="card-title">{{ $item->nama }}</div>
+                                                <div class="card-title"><?php echo e($item->nama); ?></div>
                                                 <div class="card-meta dosen">Dosen</div>
                                                 <div class="detail-list">
-                                                    <div class="detail"><div class="detail-label">NIP</div><div class="detail-value">{{ $item->nip ?? '-' }}</div></div>
-                                                    <div class="detail"><div class="detail-label">NIDN</div><div class="detail-value">{{ $item->nidn ?? '-' }}</div></div>
+                                                    <div class="detail"><div class="detail-label">NIP</div><div class="detail-value"><?php echo e($item->nip ?? '-'); ?></div></div>
+                                                    <div class="detail"><div class="detail-label">NIDN</div><div class="detail-value"><?php echo e($item->nidn ?? '-'); ?></div></div>
                                                     <div class="detail"><div class="detail-label">Lokasi</div><div class="detail-value">Gedung JTI Lt. 1</div></div>
                                                 </div>
                                             </div>
                                         </article>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                             </section>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
-                @endif
+                <?php endif; ?>
             </section>
 
             <section id="teknisiPane" class="role-pane">
-                @php
+                <?php
                     $teknisiByBagian = $teknisi
                         ->sortBy([['bagian', 'asc'], ['nama', 'asc']])
                         ->groupBy(function ($item) {
                             $bagian = trim((string) ($item->bagian ?? ''));
                             return $bagian !== '' ? $bagian : 'Bagian Belum Ditentukan';
                         });
-                @endphp
+                ?>
 
-                @if ($teknisiByBagian->isEmpty())
+                <?php if($teknisiByBagian->isEmpty()): ?>
                     <div class="empty-state">Belum ada data teknisi/staff di database.</div>
-                @else
+                <?php else: ?>
                     <div class="bagian-groups">
-                        @foreach ($teknisiByBagian as $bagianName => $bagianItems)
+                        <?php $__currentLoopData = $teknisiByBagian; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $bagianName => $bagianItems): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <section class="bagian-group">
                                 <header class="bagian-head">
-                                    <h4 class="bagian-title">{{ $bagianName }}</h4>
-                                    <span class="bagian-count">{{ $bagianItems->count() }} Orang</span>
+                                    <h4 class="bagian-title"><?php echo e($bagianName); ?></h4>
+                                    <span class="bagian-count"><?php echo e($bagianItems->count()); ?> Orang</span>
                                 </header>
 
                                 <div class="cards">
-                                    @foreach ($bagianItems as $item)
+                                    <?php $__currentLoopData = $bagianItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <article class="card">
-                                            @php
+                                            <?php
                                                 $fotoUrl = $resolveFoto($item->foto);
-                                            @endphp
-                                            <div class="avatar teknisi" @if($fotoUrl) style="background-image: url('{{ $fotoUrl }}')" @endif>
-                                                @if(!$fotoUrl)
-                                                    <div class="avatar-placeholder">{{ $makeInitial($item->nama) }}</div>
-                                                @endif
+                                            ?>
+                                            <div class="avatar teknisi" <?php if($fotoUrl): ?> style="background-image: url('<?php echo e($fotoUrl); ?>')" <?php endif; ?>>
+                                                <?php if(!$fotoUrl): ?>
+                                                    <div class="avatar-placeholder"><?php echo e($makeInitial($item->nama)); ?></div>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="card-body">
-                                                <div class="card-title">{{ $item->nama }}</div>
-                                                <div class="card-meta teknisi">{{ ucfirst($item->role ?? 'staff') }}</div>
+                                                <div class="card-title"><?php echo e($item->nama); ?></div>
+                                                <div class="card-meta teknisi"><?php echo e(ucfirst($item->role ?? 'staff')); ?></div>
                                                 <div class="detail-list">
-                                                    <div class="detail"><div class="detail-label">NIP</div><div class="detail-value">{{ $item->nip ?? '-' }}</div></div>
-                                                    <div class="detail"><div class="detail-label">NIDN</div><div class="detail-value">{{ $item->nidn ?? '-' }}</div></div>
+                                                    <div class="detail"><div class="detail-label">NIP</div><div class="detail-value"><?php echo e($item->nip ?? '-'); ?></div></div>
+                                                    <div class="detail"><div class="detail-label">NIDN</div><div class="detail-value"><?php echo e($item->nidn ?? '-'); ?></div></div>
                                                     <div class="detail"><div class="detail-label">Lokasi</div><div class="detail-value">Gedung JTI Lt. 1</div></div>
                                                 </div>
                                             </div>
                                         </article>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                             </section>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
-                @endif
+                <?php endif; ?>
             </section>
 
             <div class="footer-note">
@@ -691,3 +691,4 @@
 </body>
 </html>
 
+<?php /**PATH F:\Sempro TA\project\Laravel\TA\resources\views\dashboard.blade.php ENDPATH**/ ?>

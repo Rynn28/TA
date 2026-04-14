@@ -12,15 +12,41 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['name', 'email', 'password', 'remember_token', 'email_verified_at']);
+            // Only drop columns if they exist
+            if (Schema::hasColumn('users', 'name')) {
+                $table->dropColumn(['name']);
+            }
+            if (Schema::hasColumn('users', 'email')) {
+                $table->dropColumn(['email']);
+            }
+            if (Schema::hasColumn('users', 'password')) {
+                $table->dropColumn(['password']);
+            }
+            if (Schema::hasColumn('users', 'remember_token')) {
+                $table->dropColumn(['remember_token']);
+            }
+            if (Schema::hasColumn('users', 'email_verified_at')) {
+                $table->dropColumn(['email_verified_at']);
+            }
         });
         
         Schema::table('users', function (Blueprint $table) {
-            $table->string('nama')->after('id');
-            $table->string('nip')->unique()->nullable()->after('nama');
-            $table->string('nidn')->unique()->nullable()->after('nip');
-            $table->string('foto')->nullable()->after('nidn');
-            $table->string('role')->default('staff')->after('foto');
+            // Only add columns if they don't exist
+            if (!Schema::hasColumn('users', 'nama')) {
+                $table->string('nama')->after('id');
+            }
+            if (!Schema::hasColumn('users', 'nip')) {
+                $table->string('nip')->unique()->nullable()->after('nama');
+            }
+            if (!Schema::hasColumn('users', 'nidn')) {
+                $table->string('nidn')->unique()->nullable()->after('nip');
+            }
+            if (!Schema::hasColumn('users', 'foto')) {
+                $table->string('foto')->nullable()->after('nidn');
+            }
+            if (!Schema::hasColumn('users', 'role')) {
+                $table->string('role')->default('staff')->after('foto');
+            }
         });
     }
 
